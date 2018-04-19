@@ -1,0 +1,26 @@
+
+
+
+
+
+query rsd_one($rsd_id: String) {
+  rsd_media_content(get_rsd: $rsd_id) {
+    ID
+    book {
+      author
+      title
+    }
+    podcast {
+      description
+      mp3
+      length
+      episode
+    }
+    rsd_post
+    resource
+  }
+}
+
+
+
+ { "rsd_id": "112"}

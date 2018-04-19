@@ -1,0 +1,16 @@
+
+
+
+
+query page_one($page_id: String) {
+  page_content(get_page: $page_id) {
+    ID
+    headline
+    article_post
+  }
+}
+
+
+
+
+ { "page_id": "48369"}

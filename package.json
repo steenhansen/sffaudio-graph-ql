@@ -1,0 +1,47 @@
+{
+  "name": "sffaudio-graph-ql",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "nodemon ./src/server.js --exec babel-node -e js",
+    "test": "jest",
+    "build": "babel src -d dist",
+    "serve": "node dist/server.js"
+  },
+  "jest": {
+    "automock": false,
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/__all_search.test.js",
+      "<rootDir>/tests/__pdf_search.test.js",
+      "<rootDir>/tests/__rsd_search.test.js",
+      "<rootDir>/tests/__sffAudio_search.test.js",
+      "<rootDir>/tests/__webpage_search.test.js"
+    ],
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  },
+  "author": "",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-async-generator-functions": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.23.0",
+    "jest": "^22.4.3",
+    "jest-fetch-mock": "^1.5.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "graphql-tools": "^2.15.0",
+    "node-fetch": "^2.1.2",
+    "graphql": "^0.12.3",
+    "apollo-engine": "^1.0.4-evans.0",
+    "webtask-tools": "^3.2.0",
+    "launchpad-module": "^0.0.0",
+    "apollo-server-express": "^1.2.0"
+  }
+}

@@ -1,0 +1,13 @@
+
+
+
+http://localhost:3000/graphiql?operationName=page_all&query=query%20page_all%20%7B%0A%20%20page_content%20%7B%0A%20%20%20%20ID%0A%20%20%20%20headline%0A%20%20%20%20article_post%0A%20%20%7D%0A%7D
+
+query page_all {
+  page_content {
+    ID
+    headline
+    article_post
+  }
+}
+

@@ -1,0 +1,22 @@
+
+
+
+http://localhost:3000/graphiql?operationName=rsd_all&query=query%20rsd_all%20%7B%0A%20%20rsd_media_content%20%7B%0A%20%20%20%20ID%0A%20%20%20%20book%20%7B%0A%20%20%20%20%20%20author%0A%20%20%20%20%20%20title%0A%20%20%20%20%7D%0A%20%20%20%20podcast%20%7B%0A%20%20%20%20%20%20description%0A%20%20%20%20%20%20mp3%0A%20%20%20%20%20%20length%0A%20%20%20%20%20%20episode%0A%20%20%20%20%7D%0A%20%20%20%20rsd_post%0A%20%20%20%20resource%0A%20%20%7D%0A%7D%0A
+
+query rsd_all {
+  rsd_media_content {
+    ID
+    book {
+      author
+      title
+    }
+    podcast {
+      description
+      mp3
+      length
+      episode
+    }
+    rsd_post
+    resource
+  }
+}

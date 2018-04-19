@@ -1,0 +1,29 @@
+
+
+
+http://localhost:3000/graphiql?operationName=sffaudio_one&query=%0Aquery%20sffaudio_one(%24sffaudio_id%3A%20String)%20%7B%0A%20sffaudio_media_content(get_sffaudio%3A%20%24sffaudio_id)%20%7B%0A%20%20%20%20ID%0A%20possiblebook%7B%0A%20%20%20%20%20%20author%0A%20%20%20%20%20%20title%0A%20%20%20%20%7D%0A%20%20%20%20podcast%20%7B%0A%20%20%20%20%20%20description%0A%20%20%20%20%20%20mp3%0A%20%20%20%20%20%20length%0A%20%20%20%20%20%20episode%0A%20%20%20%20%7D%0A%20%20%20%20sffaudio_post%0A%20%20%20%20narrator%0A%20%20%7D%0A%7D&variables=%20%7B%20%22sffaudio_id%22%3A%20%22112%22%7D
+
+
+
+query sffaudio_one($sffaudio_id: String) {
+ sffaudio_media_content(get_sffaudio: $sffaudio_id) {
+    ID
+ possiblebook{
+      author
+      title
+    }
+    podcast {
+      description
+      mp3
+      length
+      episode
+    }
+    sffaudio_post
+    narrator
+  }
+}
+
+
+
+ { "sffaudio_id": "112"}
+

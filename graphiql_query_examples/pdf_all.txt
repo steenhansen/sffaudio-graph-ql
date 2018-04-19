@@ -1,0 +1,20 @@
+
+
+http://localhost:3000/graphiql?operationName=pdf_all&query=query%20pdf_all%20%7B%0A%20%20pdf_media_content%20%7B%0A%20%20%20%20ID%0A%20%20%20%20book%20%7B%0A%20%20%20%20%20%20author%0A%20%20%20%20%20%20title%0A%20%20%20%20%7D%0A%20%20%20%20issues%20%7B%0A%20%20%20%20%20%20url%0A%20%20%20%20%20%20publisher%0A%20%20%20%20%20%20pages%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+
+
+query pdf_all {
+  pdf_media_content {
+    ID
+    book {
+      author
+      title
+    }
+    issues {
+      url
+      publisher
+      pages
+    }
+  }
+}
+
