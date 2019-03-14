@@ -1,2 +1,2 @@
-web: node --expose-gc ./dist/server.js
+web: node --expose-gc ./src/server.js
 
