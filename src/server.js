@@ -9,7 +9,7 @@ const widget_id = 'media__radio__widget';
 const LOCAL_PORT = 3000;
 if (process.env.PORT) {
     var listen_port = process.env.PORT;
-    var http_host = 'https://sffaudio-graphql.herokuapp.com';
+    var http_host = 'https://sffaudio-graph-ql.herokuapp.com';
 } else {
     var listen_port = LOCAL_PORT;
     var http_host = 'http://localhost:' + LOCAL_PORT;
