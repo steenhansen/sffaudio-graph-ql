@@ -4,7 +4,7 @@ const { URL } = require('url');
 var {SiteContent} = require('./SiteContent');
 
 
-var {PdfMedia, PDF_SEARCH_FIELDS, HEROKU_PDF} = require('./Media/PdfMedia');
+var {PdfMedia, PDF_SEARCH_FIELDS, HEROKU_PDF} = require('./media/PdfMedia');
 
 
 var {SffAudioMedia, SFF_AUDIO_SEARCH_FIELDS, HEROKU_PODCASTS} = require('./media/SffAudioMedia');
