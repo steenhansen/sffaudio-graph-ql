@@ -1,13 +1,18 @@
 
 
-import {SiteContent} from './SiteContent';
-import {SharedMedia,RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} from './SharedMedia';
-import {Issue} from './Issue';
+var {SiteContent} = require('../SiteContent');
+
+
+var {SharedMedia,RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} = require('./SharedMedia');
+
+
+var {Issue} = require('./Issue');
+
 
 const HEROKU_PDF = 'pdf/table/'
 const PDF_SEARCH_FIELDS = ['book author', 'book title']
 
-import {Book} from './Book';
+var {Book} = require('./Book');
 
 class PdfMedia extends SharedMedia{
   constructor(options) {

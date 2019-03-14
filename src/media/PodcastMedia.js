@@ -1,6 +1,9 @@
 
-import {SharedMedia} from './SharedMedia';
-import {Podcast} from './Podcast';
+var {SharedMedia} = require('./SharedMedia');
+
+
+var {Podcast} = require('./Podcast');
+
 
 class PodcastMedia extends SharedMedia{
 

@@ -1,10 +1,18 @@
 
-import { makeExecutableSchema, addResolveFunctionsToSchema } from 'graphql-tools';
+var {makeExecutableSchema, addResolveFunctionsToSchema} = require('graphql-tools');
 
-import {typeDefs} from './typeDefs';
 
-import fetch from 'node-fetch';
-import the_resolvers from './resolvers';
+var {typeDefs} = require('./typeDefs');
+
+
+
+var fetch = require('node-fetch');
+
+
+var the_resolvers = require('./resolvers');
+
+
+
 var {resolveContent, searchResolve, rsdResolve, pdfResolve, sffAudioResolve, pageResolve}  = the_resolvers(fetch);
 
 
@@ -16,13 +24,16 @@ const resolvers = {
     pdf_media_content: pdfResolve,
     sffaudio_media_content:sffAudioResolve,
     page_content:pageResolve
-  }
+  },
 
 };
 
-export const schema = makeExecutableSchema({
+ const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
+	resolverValidationOptions: {
+		requireResolversForResolveType: false,
+	},
 });
 
 
@@ -36,9 +47,14 @@ const resolverMap = {
 
 addResolveFunctionsToSchema(schema, resolverMap);
 
-export function context(headers, secrets) {
+ function context(headers, secrets) {
   return {
     headers,
     secrets,
   };
+};
+
+module.exports={
+  schema,
+  context
 };

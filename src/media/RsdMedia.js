@@ -1,9 +1,15 @@
 
-import {RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} from './SharedMedia';
-import {PodcastMedia} from './PodcastMedia';
-import {SiteContent} from './SiteContent';
+var {RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} = require('./SharedMedia');
 
-import {Book} from './Book';
+
+var {PodcastMedia} = require('./PodcastMedia');
+
+
+var {SiteContent} = require('../SiteContent');
+
+
+var {Book} = require('./Book');
+
 
 const HEROKU_RSD = 'rsd/table/'
 const RSD_SEARCH_FIELDS = ['book author', 'book title', 'narrator', 'participants', 'about']

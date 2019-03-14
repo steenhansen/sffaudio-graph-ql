@@ -1,8 +1,16 @@
 
-import {RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} from './SharedMedia';
-import {PodcastMedia} from './PodcastMedia';
-import {SiteContent} from './SiteContent';
-import {PossibleBook} from './PossibleBook';
+var {RSD_PDF_SFF_POST_EMPTY, RSD_PDF_SFF_START_DATA, RSD_PDF_SFF_END_DATA} = require('./SharedMedia');
+
+
+var {PodcastMedia} = require('./PodcastMedia');
+
+
+var {SiteContent} = require('../SiteContent');
+
+
+var {PossibleBook} = require('./PossibleBook');
+
+
 
 const HEROKU_PODCASTS = 'podcast/table/'   
 const SFF_AUDIO_SEARCH_FIELDS = ['book author', 'book title', 'narrator', 'participants', 'about']

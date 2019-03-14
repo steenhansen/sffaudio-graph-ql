@@ -22,4 +22,6 @@ The returned json from [GraphiQl for a search for 'Clarke'](https://graphql-sear
 	npm run build
 
 	npm run serve
+	
+	http://localhost:3000/media-radio-lists
 

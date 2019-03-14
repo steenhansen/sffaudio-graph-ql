@@ -1,17 +1,22 @@
 
 const { URL } = require('url');
 
-import {SiteContent} from './SiteContent';
-import {PdfMedia, PDF_SEARCH_FIELDS, HEROKU_PDF} from './PdfMedia';
-import {SffAudioMedia, SFF_AUDIO_SEARCH_FIELDS, HEROKU_PODCASTS} from './SffAudioMedia';
-import {RsdMedia, RSD_SEARCH_FIELDS, HEROKU_RSD } from './RsdMedia';
-import {WebPage} from './WebPage';
-
-import {SFFAUDIO_HEROKU, SFFAUDIO_COM, SFFAUDIO_ARTICLE_MENTIONS_PHP} from './constants';
+var {SiteContent} = require('./SiteContent');
 
 
+var {PdfMedia, PDF_SEARCH_FIELDS, HEROKU_PDF} = require('./Media/PdfMedia');
 
-export default function(fetch) {
+
+var {SffAudioMedia, SFF_AUDIO_SEARCH_FIELDS, HEROKU_PODCASTS} = require('./media/SffAudioMedia');
+
+var {RsdMedia, RSD_SEARCH_FIELDS, HEROKU_RSD} = require('./media/RsdMedia');
+
+var {WebPage} = require('./WebPage');
+
+var {SFFAUDIO_HEROKU, SFFAUDIO_COM, SFFAUDIO_ARTICLE_MENTIONS_PHP} = require('./constants');
+
+
+module.exports = function(fetch) {
   global.fetch = fetch
 
   return {

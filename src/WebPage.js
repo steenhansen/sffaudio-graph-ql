@@ -1,7 +1,6 @@
 
 
-import {SiteContent} from './SiteContent';
-
+var {SiteContent} = require('./SiteContent');
 
 const POST_EMPTY= /\s*{\s*"posts"\s*:\s*\[\s*\]\s*}\s*/
 

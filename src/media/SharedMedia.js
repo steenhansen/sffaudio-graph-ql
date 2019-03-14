@@ -1,5 +1,5 @@
 
-import {SiteContent} from './SiteContent';
+var {SiteContent} = require('../SiteContent');
 
 const RSD_PDF_SFF_POST_EMPTY= /\s*{\s*"data_list"\s*:\s*\[\s*\]\s*}\s*/
 

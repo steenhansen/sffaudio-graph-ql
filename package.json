@@ -6,42 +6,38 @@
   "scripts": {
     "start": "nodemon ./src/server.js --exec babel-node -e js",
     "test": "jest",
-    "build": "babel src -d dist",
-    "serve": "node dist/server.js"
-  },
-  "jest": {
-    "automock": false,
-    "testPathIgnorePatterns": [
-      "<rootDir>/tests/__all_search.test.js",
-      "<rootDir>/tests/__pdf_search.test.js",
-      "<rootDir>/tests/__rsd_search.test.js",
-      "<rootDir>/tests/__sffAudio_search.test.js",
-      "<rootDir>/tests/__webpage_search.test.js"
-    ],
-    "setupFiles": [
-      "./setupJest.js"
-    ]
+    "buildX": "babel src -d dist",
+    "build": "babel src/MediaRadioLists.jsx -d dist",
+    "serve": "node src/server.js"
   },
   "author": "",
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-plugin-transform-async-generator-functions": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-latest": "^6.23.0",
-    "jest": "^22.4.3",
-    "jest-fetch-mock": "^1.5.0",
-    "nodemon": "^1.11.0"
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-destructuring": "^7.3.2",
+    "@babel/preset-react": "^7.0.0",
+    "Babel": "0.0.1",
+    "jest": "^22.4.4",
+    "jest-fetch-mock": "^1.7.5",
+    "nodemon": "^1.18.10",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2",
-    "graphql-tools": "^2.15.0",
-    "node-fetch": "^2.1.2",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "apollo-engine": "^1.1.2",
+    "apollo-server-express": "^1.4.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "graphql": "^0.12.3",
-    "apollo-engine": "^1.0.4-evans.0",
-    "webtask-tools": "^3.2.0",
+    "graphql-tools": "^2.24.0",
     "launchpad-module": "^0.0.0",
-    "apollo-server-express": "^1.2.0"
+    "node-fetch": "^2.3.0",
+    "npm": "^6.9.0",
+    "webtask-tools": "^3.4.0"
   }
 }
