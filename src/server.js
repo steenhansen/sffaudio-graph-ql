@@ -102,7 +102,7 @@ server.get('/media-radio-lists', function (req, res, next) {
     res.send(my_stuff);
 })
 
-app.get('*', function (req, res) {
+server.get('*', function (req, res) {
     res.redirect('/media-radio-lists');
 })
 
