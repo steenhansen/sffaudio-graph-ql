@@ -33,6 +33,24 @@ let schema;
  */
 
 
+
+
+
+/*
+  in .htaccess
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET,PUT,POST,DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+ */
+function corsAll(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+
+}
+
+server.use(corsAll);
+
 function parseGraphQl() {
     var graph_ql_express = graphqlExpress(async(request) => {
         if (!schema) {

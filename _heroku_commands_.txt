@@ -1,0 +1,13 @@
+
+
+
+
+
+  heroku logs -a sffaudio-graph-ql
+
+    heroku run bash -a ffaudio-graph-ql
+
+
+
+
+
