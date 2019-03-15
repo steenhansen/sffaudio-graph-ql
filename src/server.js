@@ -91,16 +91,20 @@ function mediaRadioWidget(http_host) {
         ${widget_html}
         <script>
             var sff_ajax_search = SFF_AUDIO_GRAPH_QL.getGraphCall('${http_host}', '${widget_id}');
-             sff_ajax_search('dick');
+           //  sff_ajax_search('dick');
         </script> `;
     return widget_html_js;
 }
 
+//  https://sffaudio-graph-ql.herokuapp.com/media-radio-lists
 server.get('/media-radio-lists', function (req, res, next) {
-    var my_stuff = mediaRadioWidget(http_host, 'piracy');
+    var my_stuff = mediaRadioWidget(http_host);
     res.send(my_stuff);
 })
 
+app.get('*', function (req, res) {
+    res.redirect('/media-radio-lists');
+})
 
 server.listen(listen_port, () => {
     console.log(`GraphQL Server is now running on ${http_host}/graphql`);
