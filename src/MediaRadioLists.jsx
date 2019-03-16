@@ -34,10 +34,10 @@ function initTotalHtml() {
         <br>
         <label>Filter <input value=""></label>
         <ul>
-            <li>${MEDIA_LABELS.PDF_LABEL} Y</li>
-            <li>${MEDIA_LABELS.RSD_LABEL} ?</li>
-            <li>${MEDIA_LABELS.PODCAST_LABEL} ?</li>
-            <li>${MEDIA_LABELS.POST_LABEL} ?</li>
+            <li>${MEDIA_LABELS.PDF_LABEL}</li>
+            <li>${MEDIA_LABELS.RSD_LABEL}</li>
+            <li>${MEDIA_LABELS.PODCAST_LABEL}</li>
+            <li>${MEDIA_LABELS.POST_LABEL}</li>
         </ul>
     </div> `;
     return init_total_html;
