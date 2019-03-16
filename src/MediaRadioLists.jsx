@@ -26,12 +26,13 @@ var MEDIA_LABELS = {
 function initTotalHtml() {
     var init_total_html = `
     <div>
-        <label>Filter <input value=""></label>
         <label><input type="radio" name="radio_media" checked="" >${MEDIA_RADIOS.TOTALS_RADIO}</label>
         <label><input type="radio" name="radio_media">${MEDIA_RADIOS.RSD_RADIO}</label>
         <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PDF_RADIO}</label>
         <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PODCAST_RADIO}</label>
         <label><input type="radio" name="radio_media">${MEDIA_RADIOS.POST_RADIO}</label>
+        <br>
+        <label>Filter <input value=""></label>
         <ul>
             <li>${MEDIA_LABELS.PDF_LABEL} Y</li>
             <li>${MEDIA_LABELS.RSD_LABEL} ?</li>
