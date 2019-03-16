@@ -321,10 +321,10 @@ function MediaRadioLists(props) {
 
     return (
         <div>
+            {show_totals} {show_rsd} {show_pdf} {show_podcasts} {show_blogs} <br/>
             <label>
                 Filter <input onChange={ (event)=>setFilter(event.target.value) } value={filter_string}/>
             </label>
-            {show_totals} {show_rsd} {show_pdf} {show_podcasts} {show_blogs}
             <ul>
                 {li_strings}
             </ul>

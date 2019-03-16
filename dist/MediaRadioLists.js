@@ -22,7 +22,7 @@ var MEDIA_LABELS = {
 };
 
 function initTotalHtml() {
-  var init_total_html = "\n    <div>\n        <label>Filter <input value=\"\"></label>\n        <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        <ul>\n            <li>").concat(MEDIA_LABELS.PDF_LABEL, " Y</li>\n            <li>").concat(MEDIA_LABELS.RSD_LABEL, " ?</li>\n            <li>").concat(MEDIA_LABELS.PODCAST_LABEL, " ?</li>\n            <li>").concat(MEDIA_LABELS.POST_LABEL, " ?</li>\n        </ul>\n    </div> ");
+  var init_total_html = "\n    <div>\n        <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n        <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        <br>\n        <label>Filter <input value=\"\"></label>\n        <ul>\n            <li>").concat(MEDIA_LABELS.PDF_LABEL, " Y</li>\n            <li>").concat(MEDIA_LABELS.RSD_LABEL, " ?</li>\n            <li>").concat(MEDIA_LABELS.PODCAST_LABEL, " ?</li>\n            <li>").concat(MEDIA_LABELS.POST_LABEL, " ?</li>\n        </ul>\n    </div> ");
   return init_total_html;
 }
 
@@ -214,9 +214,9 @@ function MediaRadioLists(props) {
       }
     });
     var total_list = [{
-      media_html: SFF_AUDIO_GRAPH_QL.MEDIA_LABELS.PDF_LABEL + pdf_list.length
-    }, {
       media_html: SFF_AUDIO_GRAPH_QL.MEDIA_LABELS.RSD_LABEL + rsd_list.length
+    }, {
+      media_html: SFF_AUDIO_GRAPH_QL.MEDIA_LABELS.PDF_LABEL + pdf_list.length
     }, {
       media_html: SFF_AUDIO_GRAPH_QL.MEDIA_LABELS.PODCAST_LABEL + podcast_list.length
     }, {
@@ -336,12 +336,12 @@ function MediaRadioLists(props) {
   var show_pdf = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PDF_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PDF_RADIO);
   var show_podcasts = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PODCAST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PODCAST_RADIO);
   var show_blogs = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.POST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.POST_RADIO);
-  return React.createElement("div", null, React.createElement("label", null, "Filter ", React.createElement("input", {
+  return React.createElement("div", null, show_totals, " ", show_rsd, " ", show_pdf, " ", show_podcasts, " ", show_blogs, " ", React.createElement("br", null), React.createElement("label", null, "Filter ", React.createElement("input", {
     onChange: function onChange(event) {
       return setFilter(event.target.value);
     },
     value: filter_string
-  })), show_totals, " ", show_rsd, " ", show_pdf, " ", show_podcasts, " ", show_blogs, React.createElement("ul", null, li_strings));
+  })), React.createElement("ul", null, li_strings));
 }
 
 function getGraphCall(machine_name, elem_name) {
@@ -443,8 +443,5 @@ function widgetHtml(widget_id) {
 
 module.exports = {
   MEDIA_TYPES: MEDIA_TYPES,
-  widgetHtml: widgetHtml,
-  initTotalHtml: initTotalHtml,
-  browserMediaObject: browserMediaObject,
-  reactPolyfillCdn: reactPolyfillCdn
+  widgetHtml: widgetHtml
 };
