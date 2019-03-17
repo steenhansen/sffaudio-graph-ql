@@ -6,6 +6,20 @@ var MEDIA_TYPES = {
     POST_TYPE: 'POST_TYPE'
 };
 
+if (typeof React == 'undefined') {  // NB for NodeJs server to accept MEDIA_REFS
+    var React = {
+        createRef: ()=> {
+        }
+    };
+}
+
+var MEDIA_REFS = {
+    TOTALS_TYPE: React.createRef(),
+    RSD_TYPE: React.createRef(),
+    PDF_TYPE: React.createRef(),
+    PODCAST_TYPE: React.createRef(),
+    POST_TYPE: React.createRef(),
+};
 
 var MEDIA_RADIOS = {
     TOTALS_RADIO: 'Media Totals',
@@ -22,28 +36,38 @@ var MEDIA_LABELS = {
     POST_LABEL: 'Blog Posts  - '
 };
 
+var TIME_OUT_MSEC = 4000;
+var NUM_FETCH_TRIES = 3;
+var FILTER_TEXT_BY = 'Only show media matching ';
+
+var PLACE_HOLDER = 'some text';
 
 function initTotalHtml() {
     var init_total_html = `
     <div>
-        <label><input type="radio" name="radio_media" checked="" >${MEDIA_RADIOS.TOTALS_RADIO}</label>
-        <label><input type="radio" name="radio_media">${MEDIA_RADIOS.RSD_RADIO}</label>
-        <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PDF_RADIO}</label>
-        <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PODCAST_RADIO}</label>
-        <label><input type="radio" name="radio_media">${MEDIA_RADIOS.POST_RADIO}</label>
+        <div>
+            <label><input type="radio" name="radio_media" checked="" >${MEDIA_RADIOS.TOTALS_RADIO}</label>
+            <label><input type="radio" name="radio_media">${MEDIA_RADIOS.RSD_RADIO}</label>
+            <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PDF_RADIO}</label>
+            <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PODCAST_RADIO}</label>
+            <label><input type="radio" name="radio_media">${MEDIA_RADIOS.POST_RADIO}</label>
+        <div>
         <br>
-        <label>Filter <input value=""></label>
+        <div>
+            <label>${FILTER_TEXT_BY}<input value="" placeholder="${PLACE_HOLDER}"></label>
+        </div>
         <ul>
-            <li>${MEDIA_LABELS.PDF_LABEL}</li>
-            <li>${MEDIA_LABELS.RSD_LABEL}</li>
-            <li>${MEDIA_LABELS.PODCAST_LABEL}</li>
-            <li>${MEDIA_LABELS.POST_LABEL}</li>
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
+            <li>&nbsp;</li>
         </ul>
     </div> `;
     return init_total_html;
 }
 
 function MediaRadioLists(props) {
+
     var media_filter = '';
     var media_transform_func = '';
     var plain_text_func = '';
@@ -178,24 +202,6 @@ function MediaRadioLists(props) {
         }
     }
 
-    function mediaRadioBtn(radio_name, radio_text) {
-        var button_event = (event) => {
-            setMediaType(radio_name);
-            setFilter('');
-        }
-        if (radio_name === media_type) {
-            var is_checked = true;
-        }
-        else {
-            var is_checked = false;
-        }
-        var show_totals = <label>
-            <input type="radio" name="radio_media" onClick={ button_event } defaultChecked={is_checked}/>
-            { radio_text }
-        </label>;
-        return show_totals;
-    }
-
     function calcTotals(these_props) {
         var pdf_list = these_props.filter(function (a_media) {
             return pdf_regExp.test(a_media.ID);
@@ -268,7 +274,6 @@ function MediaRadioLists(props) {
         return true;
     }
 
-
     function chooseType(these_props) {
         if (showing_totals) {
             return calcTotals(these_props);
@@ -298,43 +303,78 @@ function MediaRadioLists(props) {
         return li_strings;
     }
 
-    /* actual start */
+    function mediaRadioBtn(radio_name, radio_text) {
+        var radio_ref = SFF_AUDIO_GRAPH_QL.MEDIA_REFS[radio_name];
+        var button_event = (event) => {
+            setMediaType(event.target.id);
+            setFilter('');
+        }
+        if (radio_name === media_type) {
+            var is_checked = true;
+        }
+        else {
+            var is_checked = false;
+        }
+        var show_totals = <label>
+            <input type="radio" ref={radio_ref} name="radio_media" id={radio_name} onChange={button_event} value={radio_name} checked={is_checked}/>
+            { radio_text }
+        </label>;
+        return show_totals;
+    }
 
-    var my_rsd = React.useState(props.checked_radio);
-    var media_type = my_rsd[0];
-    var setMediaType = my_rsd[1];
-    filterTransform(media_type);
+    function allRadios() {
+        var show_totals = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.TOTALS_RADIO);
+        var show_rsd = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.RSD_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.RSD_RADIO);
+        var show_pdf = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PDF_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PDF_RADIO);
+        var show_podcasts = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PODCAST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PODCAST_RADIO);
+        var show_blogs = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.POST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.POST_RADIO);
+        return (
+            <div>
+                {show_totals} {show_rsd} {show_pdf} {show_podcasts} {show_blogs}
+            </div>
+        );
+    }
+
+    function filterText(filter_string) {
+        return (
+            <div>
+                <label>
+                    {SFF_AUDIO_GRAPH_QL.FILTER_TEXT_BY}<input onChange={ (event)=>setFilter(event.target.value) }
+                                                         value={filter_string}  placeholder={SFF_AUDIO_GRAPH_QL.PLACE_HOLDER} />
+                </label>
+            </div>
+        );
+    }
+
+// START
+    var checked_radio = React.useState(props.checked_radio);
+    var media_type = checked_radio[0];
+    var setMediaType = checked_radio[1];
 
     var filter_array = React.useState('');
     var filter_string = filter_array[0];
     var setFilter = filter_array[1];
+
+    filterTransform(media_type);
     var li_strings = chooseType(props.the_json);
-    React.useEffect(() => {
-        document.title = `${media_type}`;
-    });
-
-    var show_totals = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.TOTALS_RADIO);
-    var show_rsd = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.RSD_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.RSD_RADIO);
-    var show_pdf = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PDF_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PDF_RADIO);
-    var show_podcasts = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PODCAST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PODCAST_RADIO);
-    var show_blogs = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.POST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.POST_RADIO);
-
+    var all_radios = allRadios();
+    var filter_text = filterText(filter_string);
     return (
         <div>
-            {show_totals} {show_rsd} {show_pdf} {show_podcasts} {show_blogs} <br/>
-            <label>
-                Filter <input onChange={ (event)=>setFilter(event.target.value) } value={filter_string}/>
-            </label>
+            {all_radios}
+            <br/>
+            {filter_text}
             <ul>
                 {li_strings}
             </ul>
         </div>
     );
+
 }
 
 function getGraphCall(machine_name, elem_name) {
-    var fetch_func = function (search_str, test_json = false, checked_radio = false) {
-        function fetchTimeout(fetch_url, time_out, num_tries) {       // fetchTimeout('www.xe.com', 3000, 2)
+    var sff_ajax_search = function (search_str, test_json = false, checked_radio = false) {
+        function fetchTimeout(fetch_url, time_out_msec, num_tries) {
             var has_timed_out = false;
             return new Promise(function (resolve, reject) {
                 if (num_tries == 0) {
@@ -344,7 +384,7 @@ function getGraphCall(machine_name, elem_name) {
                     has_timed_out = true;
                     reject(new Error('time out error 6924'));
                 };
-                var timeout_error = setTimeout(rejectFetchSoon, time_out);
+                var timeout_error = setTimeout(rejectFetchSoon, time_out_msec);
                 fetch(fetch_url)
                     .then(function (good_response) {
                         clearTimeout(timeout_error);
@@ -357,7 +397,7 @@ function getGraphCall(machine_name, elem_name) {
                     });
             })
                 .catch(function (catch_timeout_error) {
-                    return fetchTimeout(fetch_url, time_out, num_tries - 1);
+                    return fetchTimeout(fetch_url, time_out_msec, num_tries - 1);
                 });
         }
 
@@ -365,54 +405,80 @@ function getGraphCall(machine_name, elem_name) {
             var query_str = `/graphql/graphql?operationName=serch_ql&query=%0Aquery%20serch_ql(%24search_parameter%3A%20String!)%20%7B%0A%20search_site_content(search_text%3A%20%24search_parameter)%20%7B%0A%20...%20on%20ArticlePage%7B%20ID%20headline%20article_post%20%7D%2C%0A%20...%20on%20MentionPage%7B%20ID%20headline%20mention_post%20%7D%2C%0A%20...%20on%20RsdMedia%20%7B%20ID%20rsd_post%20resource%0A%20book%20%7B%20author%20title%20%7D%0A%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%7D%2C%0A%20...%20on%20SffAudioMedia%20%7B%20ID%20sffaudio_post%20narrator%20about%0A%20possiblebook%7B%20author%20title%20%7D%0A%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%7D%2C%0A%20...%20on%20PdfMedia%20%7B%20ID%0A%20book%20%7B%20author%20title%20%7D%0A%20issues%20%7B%20url%20publisher%20pages%20%7D%20%7D%0A%20%7D%0A%7D%20&variables=%7B%20%22search_parameter%22%3A%20%22${search_string}%22%7D`;
             var graph_ql_url = machine_url + query_str;
             return graph_ql_url;
-
         }
 
         function buildMediaRadios(containing_elem, my_json, checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE) {
-            var elem = document.getElementById(containing_elem);
+            var widget_elem = document.getElementById(containing_elem);
             var MediaRadioLists = SFF_AUDIO_GRAPH_QL.MediaRadioLists;
-            ReactDOM.render(
-                <MediaRadioLists the_json={my_json} checked_radio={checked_radio}/>, elem
+            return ReactDOM.render(
+                <MediaRadioLists the_json={my_json} checked_radio={checked_radio}/>, widget_elem
             );
-            return elem.innerHTML;
         }
 
+        function clickTotals() {
+            try {
+                document.getElementById('TOTALS_TYPE').click();
+            } catch (e) {
+                //   console.log(e)
+            }
+        }
+
+// start
         if (!checked_radio) {
             checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
         }
+
         if (test_json) {
             var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
             return new Promise((resolve, reject) => {
                 resolve(actual_html);
             });
         } else {
+            clickTotals();
+            buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
             var graph_ql_url = graphQlUrl(machine_name, search_str);
-            return fetchTimeout(graph_ql_url, 4000, 2)
+            return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
                 .then(function (response) {
                     return response.json();
                 })
                 .then(function (my_json) {
-                    var the_data = my_json.data.search_site_content
+                    var the_data = my_json.data.search_site_content;
                     buildMediaRadios(elem_name, the_data, checked_radio);
+                    clickTotals();
                 })
         }
     }
-    return fetch_func;
+    return sff_ajax_search;
 }
 
 function browserMediaObject() {
     var media_types = JSON.stringify(MEDIA_TYPES);
     var media_radios = JSON.stringify(MEDIA_RADIOS);
+    var media_refs = JSON.stringify(MEDIA_REFS);
     var media_labels = JSON.stringify(MEDIA_LABELS);
+
+    var time_out_msec = JSON.stringify(TIME_OUT_MSEC);
+    var num_fetch_tries = JSON.stringify(NUM_FETCH_TRIES);
+    var filter_text_by = JSON.stringify(FILTER_TEXT_BY);
+    var place_holder = JSON.stringify(PLACE_HOLDER);
+    
     var init_total_html_str = initTotalHtml.toString();
     var media_radio_lists = MediaRadioLists.toString();
     var get_graph_call = getGraphCall.toString();
+    
     var react_funcs = `
         <script>
              var SFF_AUDIO_GRAPH_QL = {
                  MEDIA_TYPES : ${media_types},
                  MEDIA_RADIOS : ${media_radios},
+                 MEDIA_REFS : ${media_refs},
                  MEDIA_LABELS : ${media_labels},
+                 
+                 TIME_OUT_MSEC :${time_out_msec},
+                 NUM_FETCH_TRIES :${num_fetch_tries},
+                 FILTER_TEXT_BY :${filter_text_by},
+                 PLACE_HOLDER: ${place_holder},
+                 
                  initTotalHtml : ${init_total_html_str},
                  MediaRadioLists : ${media_radio_lists},
                  getGraphCall :  ${get_graph_call}
@@ -443,6 +509,5 @@ function widgetHtml(widget_id) {
 }
 
 module.exports = {
-    MEDIA_TYPES,
     widgetHtml
 };
