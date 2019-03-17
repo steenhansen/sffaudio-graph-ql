@@ -487,11 +487,13 @@ function browserMediaObject() {
     return react_funcs;
 }
 
+// when in production on sffaudio, do not include bluebird and unfetch, as sffaudio-search already does
+
 function reactPolyfillCdn() {
     var react_src = `<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.4/umd/react.development.js"></script>
                      <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.4/umd/react-dom.development.js"></script>
-                     <script  src='https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird.min.js'></script>
-                     <script  src='https://cdn.jsdelivr.net/npm/unfetch@4.0.1/polyfill/index.js'></script>`;
+            <!--     <script  src='https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird.min.js'></script>
+                     <script  src='https://cdn.jsdelivr.net/npm/unfetch@4.0.1/polyfill/index.js'></script>  --> `;
     return react_src;
 }
 
