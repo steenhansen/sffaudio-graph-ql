@@ -441,8 +441,7 @@ function getGraphCall(machine_name, elem_name) {
         resolve(actual_html);
       });
     } else {
-      clickTotals();
-      buildMediaRadios(elem_name, [], checked_radio); // get zero counts to hightlight change
+      clickTotals(); //     buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
 
       var graph_ql_url = graphQlUrl(machine_name, search_str); // return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
       //     .then(function (response) {
@@ -487,7 +486,7 @@ function widgetHtml(widget_id) {
   var init_total_html = initTotalHtml();
   var react_poly_cdn = reactPolyfillCdn();
   var browser_media_object = browserMediaObject();
-  var widget_html = "\n        <div id=\"".concat(widget_id, "\">\n            ").concat(init_total_html, "\n        </div>\n        ").concat(react_poly_cdn, "\n        ").concat(browser_media_object, "   ");
+  var widget_html = "\n<div id = 'conttain'>\n        <div id=\"".concat(widget_id, "\">\n            ").concat(init_total_html, "\n        </div>\n        ").concat(react_poly_cdn, "\n        ").concat(browser_media_object, " \n</div>          ");
   return widget_html;
 }
 

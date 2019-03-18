@@ -109,11 +109,13 @@ function mediaRadioWidget(http_host) {
     var widget_html = widgetHtml(widget_id);
     var widget_html_js = `
 <!-- start mediaRadioWidget -->
+<div id="mrw_cont">
         ${widget_html}
         <script>
             var sff_ajax_search = SFF_AUDIO_GRAPH_QL.getGraphCall('${http_host}', '${widget_id}');
            //  sff_ajax_search('dick');
         </script>
+  </div>
 <!-- end mediaRadioWidget -->         `;
     return widget_html_js;
 }
