@@ -429,31 +429,31 @@ function getGraphCall(machine_name, elem_name) {
       } catch (e) {//   console.log(e)
       }
     } // start
-    //         if (!checked_radio) {
-    //             checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
-    //         }
-    //
-    //         if (test_json) {
-    //             var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
-    //             return new Promise((resolve, reject) => {
-    //                 resolve(actual_html);
-    //             });
-    //         } else {
-    //             clickTotals();
-    //             buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
-    //             var graph_ql_url = graphQlUrl(machine_name, search_str);
-    //             return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
-    //                 .then(function (response) {
-    //                     return response.json();
-    //                 })
-    //                 .then(function (my_json) {
-    //                     var the_data = my_json.data.search_site_content;
-    //                     buildMediaRadios(elem_name, the_data, checked_radio);
-    //                     clickTotals();
-    //                 })
-    //         }
-    //        
 
+
+    if (!checked_radio) {
+      checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
+    }
+
+    if (test_json) {
+      var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
+      return new Promise(function (resolve, reject) {
+        resolve(actual_html);
+      });
+    } else {
+      clickTotals();
+      buildMediaRadios(elem_name, [], checked_radio); // get zero counts to hightlight change
+
+      var graph_ql_url = graphQlUrl(machine_name, search_str); // return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
+      //     .then(function (response) {
+      //         return response.json();
+      //     })
+      //     .then(function (my_json) {
+      //         var the_data = my_json.data.search_site_content;
+      //         buildMediaRadios(elem_name, the_data, checked_radio);
+      //         clickTotals();
+      //     })
+    }
 
     console.log('i am ok');
   };
