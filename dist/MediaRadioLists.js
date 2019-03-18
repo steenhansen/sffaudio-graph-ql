@@ -41,7 +41,7 @@ var FILTER_TEXT_BY = 'Only show media matching ';
 var PLACE_HOLDER = 'some text';
 
 function initTotalHtml() {
-  var init_total_html = "\n    <div>\n        <div>\n            <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        <div>\n        <br>\n        <div>\n            <label>").concat(FILTER_TEXT_BY, "<input value=\"\" placeholder=\"").concat(PLACE_HOLDER, "\"></label>\n        </div>\n        <ul>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n        </ul>\n    </div> ");
+  var init_total_html = "\n    <div>\n        <div>\n            <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        </div>\n        <br>\n        <div>\n            <label>").concat(FILTER_TEXT_BY, "<input value=\"\" placeholder=\"").concat(PLACE_HOLDER, "\"></label>\n        </div>\n        <ul>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n        </ul>\n    </div> ");
   return init_total_html;
 }
 
@@ -441,20 +441,18 @@ function getGraphCall(machine_name, elem_name) {
         resolve(actual_html);
       });
     } else {
-      clickTotals(); //     buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
+      clickTotals();
+      buildMediaRadios(elem_name, [], checked_radio); // get zero counts to hightlight change
 
-      var graph_ql_url = graphQlUrl(machine_name, search_str); // return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
-      //     .then(function (response) {
-      //         return response.json();
-      //     })
-      //     .then(function (my_json) {
-      //         var the_data = my_json.data.search_site_content;
-      //         buildMediaRadios(elem_name, the_data, checked_radio);
-      //         clickTotals();
-      //     })
+      var graph_ql_url = graphQlUrl(machine_name, search_str);
+      return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES).then(function (response) {
+        return response.json();
+      }).then(function (my_json) {
+        var the_data = my_json.data.search_site_content;
+        buildMediaRadios(elem_name, the_data, checked_radio);
+        clickTotals();
+      });
     }
-
-    console.log('i am ok');
   };
 
   return sff_ajax_search;

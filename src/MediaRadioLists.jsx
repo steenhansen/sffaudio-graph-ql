@@ -51,7 +51,7 @@ function initTotalHtml() {
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PDF_RADIO}</label>
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PODCAST_RADIO}</label>
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.POST_RADIO}</label>
-        <div>
+        </div>
         <br>
         <div>
             <label>${FILTER_TEXT_BY}<input value="" placeholder="${PLACE_HOLDER}"></label>
@@ -435,20 +435,18 @@ function getGraphCall(machine_name, elem_name) {
             });
         } else {
             clickTotals();
-       //     buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
+            buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
             var graph_ql_url = graphQlUrl(machine_name, search_str);
-            // return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
-            //     .then(function (response) {
-            //         return response.json();
-            //     })
-            //     .then(function (my_json) {
-            //         var the_data = my_json.data.search_site_content;
-            //         buildMediaRadios(elem_name, the_data, checked_radio);
-            //         clickTotals();
-            //     })
+            return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (my_json) {
+                    var the_data = my_json.data.search_site_content;
+                    buildMediaRadios(elem_name, the_data, checked_radio);
+                    clickTotals();
+                })
         }
-       
-        console.log('i am ok')
         
     }
     return sff_ajax_search;
