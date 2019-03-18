@@ -38,7 +38,7 @@ var MEDIA_LABELS = {
 var TIME_OUT_MSEC = 4000;
 var NUM_FETCH_TRIES = 3;
 var FILTER_TEXT_BY = 'Only show media matching ';
-var PLACE_HOLDER = 'text';
+var PLACE_HOLDER = 'some text';
 
 function initTotalHtml() {
   var init_total_html = "\n    <div>\n        <div>\n            <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        <div>\n        <br>\n        <div>\n            <label>").concat(FILTER_TEXT_BY, "<input value=\"\" placeholder=\"").concat(PLACE_HOLDER, "\"></label>\n        </div>\n        <ul>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n        </ul>\n    </div> ");
@@ -429,29 +429,33 @@ function getGraphCall(machine_name, elem_name) {
       } catch (e) {//   console.log(e)
       }
     } // start
+    //         if (!checked_radio) {
+    //             checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
+    //         }
+    //
+    //         if (test_json) {
+    //             var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
+    //             return new Promise((resolve, reject) => {
+    //                 resolve(actual_html);
+    //             });
+    //         } else {
+    //             clickTotals();
+    //             buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
+    //             var graph_ql_url = graphQlUrl(machine_name, search_str);
+    //             return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
+    //                 .then(function (response) {
+    //                     return response.json();
+    //                 })
+    //                 .then(function (my_json) {
+    //                     var the_data = my_json.data.search_site_content;
+    //                     buildMediaRadios(elem_name, the_data, checked_radio);
+    //                     clickTotals();
+    //                 })
+    //         }
+    //        
 
 
-    if (!checked_radio) {
-      checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
-    }
-
-    if (test_json) {
-      var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
-      return new Promise(function (resolve, reject) {
-        resolve(actual_html);
-      });
-    } else {
-      clickTotals();
-      buildMediaRadios(elem_name, [], checked_radio);
-      var graph_ql_url = graphQlUrl(machine_name, search_str);
-      return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES).then(function (response) {
-        return response.json();
-      }).then(function (my_json) {
-        var the_data = my_json.data.search_site_content;
-        buildMediaRadios(elem_name, the_data, checked_radio);
-        clickTotals();
-      });
-    }
+    console.log('i am ok');
   };
 
   return sff_ajax_search;
@@ -471,10 +475,11 @@ function browserMediaObject() {
   var get_graph_call = getGraphCall.toString();
   var react_funcs = "\n        <script>\n             var SFF_AUDIO_GRAPH_QL = {\n                 MEDIA_TYPES : ".concat(media_types, ",\n                 MEDIA_RADIOS : ").concat(media_radios, ",\n                 MEDIA_REFS : ").concat(media_refs, ",\n                 MEDIA_LABELS : ").concat(media_labels, ",\n                 \n                 TIME_OUT_MSEC :").concat(time_out_msec, ",\n                 NUM_FETCH_TRIES :").concat(num_fetch_tries, ",\n                 FILTER_TEXT_BY :").concat(filter_text_by, ",\n                 PLACE_HOLDER: ").concat(place_holder, ",\n                 \n                 initTotalHtml : ").concat(init_total_html_str, ",\n                 MediaRadioLists : ").concat(media_radio_lists, ",\n                 getGraphCall :  ").concat(get_graph_call, "\n         };\n        </script>");
   return react_funcs;
-}
+} // when in production on sffaudio, do not include bluebird and unfetch, as sffaudio-search already does
+
 
 function reactPolyfillCdn() {
-  var react_src = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/react/16.8.4/umd/react.development.js\"></script>\n                     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.4/umd/react-dom.development.js\"></script>\n                     <script  src='https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird.min.js'></script>\n                     <script  src='https://cdn.jsdelivr.net/npm/unfetch@4.0.1/polyfill/index.js'></script>";
+  var react_src = "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/react/16.8.4/umd/react.development.js\"></script>\n                     <script src=\"https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.4/umd/react-dom.development.js\"></script>\n            <!--     <script  src='https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.5.2/bluebird.min.js'></script>\n                     <script  src='https://cdn.jsdelivr.net/npm/unfetch@4.0.1/polyfill/index.js'></script>  --> ";
   return react_src;
 }
 
