@@ -37,11 +37,9 @@ var MEDIA_LABELS = {
 };
 var TIME_OUT_MSEC = 4000;
 var NUM_FETCH_TRIES = 3;
-var FILTER_TEXT_BY = 'Only show media matching ';
-var PLACE_HOLDER = 'some text';
 
 function initTotalHtml() {
-  var init_total_html = "\n    <div>\n        <div>\n            <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        </div>\n        <br>\n        <div>\n            <label>").concat(FILTER_TEXT_BY, "<input value=\"\" placeholder=\"").concat(PLACE_HOLDER, "\"></label>\n        </div>\n        <ul>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n        </ul>\n    </div> ");
+  var init_total_html = "\n    <div>\n        <div>\n            <label><input type=\"radio\" name=\"radio_media\" checked=\"\" >".concat(MEDIA_RADIOS.TOTALS_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.RSD_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PDF_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.PODCAST_RADIO, "</label>\n            <label><input type=\"radio\" name=\"radio_media\">").concat(MEDIA_RADIOS.POST_RADIO, "</label>\n        </div>\n        <ul>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n            <li>&nbsp;</li>\n        </ul>\n    </div> ");
   return init_total_html;
 }
 
@@ -298,21 +296,16 @@ function MediaRadioLists(props) {
 
     var transformed_list = one_media_list.map(transformList);
     transformed_list.sort(sortByText);
-    var safe_filter = filter_string.replace(NOT_A_Z_SPACE_DOT, '');
-    var string_filter = RegExp(safe_filter, 'i');
-    var filtered_list = transformed_list.filter(function (media_obj) {
-      return string_filter.test(media_obj.plain_text);
-    });
 
-    if (filtered_list.length === 0) {
+    if (transformed_list.length === 0) {
       var empty_list = {
         'plain_text': 'none',
         'media_html': 'none'
       };
-      filtered_list.push(empty_list);
+      transformed_list.push(empty_list);
     }
 
-    var li_strings = filtered_list.map(liTransformFunc);
+    var li_strings = transformed_list.map(liTransformFunc);
     return li_strings;
   }
 
@@ -321,7 +314,6 @@ function MediaRadioLists(props) {
 
     var button_event = function button_event(event) {
       setMediaType(event.target.id);
-      setFilter('');
     };
 
     if (radio_name === media_type) {
@@ -349,30 +341,16 @@ function MediaRadioLists(props) {
     var show_podcasts = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.PODCAST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.PODCAST_RADIO);
     var show_blogs = mediaRadioBtn(SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.POST_TYPE, SFF_AUDIO_GRAPH_QL.MEDIA_RADIOS.POST_RADIO);
     return React.createElement("div", null, show_totals, " ", show_rsd, " ", show_pdf, " ", show_podcasts, " ", show_blogs);
-  }
-
-  function filterText(filter_string) {
-    return React.createElement("div", null, React.createElement("label", null, SFF_AUDIO_GRAPH_QL.FILTER_TEXT_BY, React.createElement("input", {
-      onChange: function onChange(event) {
-        return setFilter(event.target.value);
-      },
-      value: filter_string,
-      placeholder: SFF_AUDIO_GRAPH_QL.PLACE_HOLDER
-    })));
   } // START
 
 
   var checked_radio = React.useState(props.checked_radio);
   var media_type = checked_radio[0];
   var setMediaType = checked_radio[1];
-  var filter_array = React.useState('');
-  var filter_string = filter_array[0];
-  var setFilter = filter_array[1];
   filterTransform(media_type);
   var li_strings = chooseType(props.the_json);
   var all_radios = allRadios();
-  var filter_text = filterText(filter_string);
-  return React.createElement("div", null, all_radios, React.createElement("br", null), filter_text, React.createElement("ul", null, li_strings));
+  return React.createElement("div", null, all_radios, React.createElement("ul", null, li_strings));
 }
 
 function getGraphCall(machine_name, elem_name) {
@@ -465,12 +443,10 @@ function browserMediaObject() {
   var media_labels = JSON.stringify(MEDIA_LABELS);
   var time_out_msec = JSON.stringify(TIME_OUT_MSEC);
   var num_fetch_tries = JSON.stringify(NUM_FETCH_TRIES);
-  var filter_text_by = JSON.stringify(FILTER_TEXT_BY);
-  var place_holder = JSON.stringify(PLACE_HOLDER);
   var init_total_html_str = initTotalHtml.toString();
   var media_radio_lists = MediaRadioLists.toString();
   var get_graph_call = getGraphCall.toString();
-  var react_funcs = "\n        <script>\n             var SFF_AUDIO_GRAPH_QL = {\n                 MEDIA_TYPES : ".concat(media_types, ",\n                 MEDIA_RADIOS : ").concat(media_radios, ",\n                 MEDIA_REFS : ").concat(media_refs, ",\n                 MEDIA_LABELS : ").concat(media_labels, ",\n                 \n                 TIME_OUT_MSEC :").concat(time_out_msec, ",\n                 NUM_FETCH_TRIES :").concat(num_fetch_tries, ",\n                 FILTER_TEXT_BY :").concat(filter_text_by, ",\n                 PLACE_HOLDER: ").concat(place_holder, ",\n                 \n                 initTotalHtml : ").concat(init_total_html_str, ",\n                 MediaRadioLists : ").concat(media_radio_lists, ",\n                 getGraphCall :  ").concat(get_graph_call, "\n         };\n        </script>");
+  var react_funcs = "\n        <script>\n             var SFF_AUDIO_GRAPH_QL = {\n                 MEDIA_TYPES : ".concat(media_types, ",\n                 MEDIA_RADIOS : ").concat(media_radios, ",\n                 MEDIA_REFS : ").concat(media_refs, ",\n                 MEDIA_LABELS : ").concat(media_labels, ",\n                 \n                 TIME_OUT_MSEC :").concat(time_out_msec, ",\n                 NUM_FETCH_TRIES :").concat(num_fetch_tries, ",\n                \n                 initTotalHtml : ").concat(init_total_html_str, ",\n                 MediaRadioLists : ").concat(media_radio_lists, ",\n                 getGraphCall :  ").concat(get_graph_call, "\n         };\n        </script>");
   return react_funcs;
 } // when in production on sffaudio, do not include bluebird and unfetch, as sffaudio-search already does
 

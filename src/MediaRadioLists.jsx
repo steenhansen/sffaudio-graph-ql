@@ -38,9 +38,6 @@ var MEDIA_LABELS = {
 
 var TIME_OUT_MSEC = 4000;
 var NUM_FETCH_TRIES = 3;
-var FILTER_TEXT_BY = 'Only show media matching ';
-
-var PLACE_HOLDER = 'some text';
 
 function initTotalHtml() {
     var init_total_html = `
@@ -51,10 +48,6 @@ function initTotalHtml() {
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PDF_RADIO}</label>
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.PODCAST_RADIO}</label>
             <label><input type="radio" name="radio_media">${MEDIA_RADIOS.POST_RADIO}</label>
-        </div>
-        <br>
-        <div>
-            <label>${FILTER_TEXT_BY}<input value="" placeholder="${PLACE_HOLDER}"></label>
         </div>
         <ul>
             <li>&nbsp;</li>
@@ -290,16 +283,12 @@ function MediaRadioLists(props) {
         }
         var transformed_list = one_media_list.map(transformList);
         transformed_list.sort(sortByText);
-        var safe_filter = filter_string.replace(NOT_A_Z_SPACE_DOT, '');
-        var string_filter = RegExp(safe_filter, 'i');
-        var filtered_list = transformed_list.filter(function (media_obj) {
-            return string_filter.test(media_obj.plain_text);
-        })
-        if (filtered_list.length === 0) {
+        
+        if (transformed_list.length === 0) {
             var empty_list = {'plain_text': 'none', 'media_html': 'none'};
-            filtered_list.push(empty_list)
+            transformed_list.push(empty_list)
         }
-        var li_strings = filtered_list.map(liTransformFunc);
+        var li_strings = transformed_list.map(liTransformFunc);
         return li_strings;
     }
 
@@ -307,7 +296,6 @@ function MediaRadioLists(props) {
         var radio_ref = SFF_AUDIO_GRAPH_QL.MEDIA_REFS[radio_name];
         var button_event = (event) => {
             setMediaType(event.target.id);
-            setFilter('');
         }
         if (radio_name === media_type) {
             var is_checked = true;
@@ -335,35 +323,17 @@ function MediaRadioLists(props) {
         );
     }
 
-    function filterText(filter_string) {
-        return (
-            <div>
-                <label>
-                    {SFF_AUDIO_GRAPH_QL.FILTER_TEXT_BY}<input onChange={ (event)=>setFilter(event.target.value) }
-                                                         value={filter_string}  placeholder={SFF_AUDIO_GRAPH_QL.PLACE_HOLDER} />
-                </label>
-            </div>
-        );
-    }
-
 // START
     var checked_radio = React.useState(props.checked_radio);
     var media_type = checked_radio[0];
     var setMediaType = checked_radio[1];
 
-    var filter_array = React.useState('');
-    var filter_string = filter_array[0];
-    var setFilter = filter_array[1];
-
     filterTransform(media_type);
     var li_strings = chooseType(props.the_json);
     var all_radios = allRadios();
-    var filter_text = filterText(filter_string);
     return (
         <div>
             {all_radios}
-            <br/>
-            {filter_text}
             <ul>
                 {li_strings}
             </ul>
@@ -460,9 +430,7 @@ function browserMediaObject() {
 
     var time_out_msec = JSON.stringify(TIME_OUT_MSEC);
     var num_fetch_tries = JSON.stringify(NUM_FETCH_TRIES);
-    var filter_text_by = JSON.stringify(FILTER_TEXT_BY);
-    var place_holder = JSON.stringify(PLACE_HOLDER);
-    
+   
     var init_total_html_str = initTotalHtml.toString();
     var media_radio_lists = MediaRadioLists.toString();
     var get_graph_call = getGraphCall.toString();
@@ -477,9 +445,7 @@ function browserMediaObject() {
                  
                  TIME_OUT_MSEC :${time_out_msec},
                  NUM_FETCH_TRIES :${num_fetch_tries},
-                 FILTER_TEXT_BY :${filter_text_by},
-                 PLACE_HOLDER: ${place_holder},
-                 
+                
                  initTotalHtml : ${init_total_html_str},
                  MediaRadioLists : ${media_radio_lists},
                  getGraphCall :  ${get_graph_call}
