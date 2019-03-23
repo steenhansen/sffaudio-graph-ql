@@ -422,14 +422,18 @@ function getGraphCall(machine_name, elem_name) {
       clickTotals();
       buildMediaRadios(elem_name, [], checked_radio); // get zero counts to hightlight change
 
-      var graph_ql_url = graphQlUrl(machine_name, search_str);
-      return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES).then(function (response) {
-        return response.json();
-      }).then(function (my_json) {
-        var the_data = my_json.data.search_site_content;
-        buildMediaRadios(elem_name, the_data, checked_radio);
-        clickTotals();
-      });
+      var search_trim = search_str.trim();
+
+      if (search_trim !== '') {
+        var graph_ql_url = graphQlUrl(machine_name, search_trim);
+        return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES).then(function (response) {
+          return response.json();
+        }).then(function (my_json) {
+          var the_data = my_json.data.search_site_content;
+          buildMediaRadios(elem_name, the_data, checked_radio);
+          clickTotals();
+        });
+      }
     }
   };
 

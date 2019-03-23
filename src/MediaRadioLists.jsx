@@ -283,7 +283,7 @@ function MediaRadioLists(props) {
         }
         var transformed_list = one_media_list.map(transformList);
         transformed_list.sort(sortByText);
-        
+
         if (transformed_list.length === 0) {
             var empty_list = {'plain_text': 'none', 'media_html': 'none'};
             transformed_list.push(empty_list)
@@ -304,7 +304,8 @@ function MediaRadioLists(props) {
             var is_checked = false;
         }
         var show_totals = <label>
-            <input type="radio" ref={radio_ref} name="radio_media" id={radio_name} onChange={button_event} value={radio_name} checked={is_checked}/>
+            <input type="radio" ref={radio_ref} name="radio_media" id={radio_name} onChange={button_event}
+                   value={radio_name} checked={is_checked}/>
             { radio_text }
         </label>;
         return show_totals;
@@ -397,7 +398,6 @@ function getGraphCall(machine_name, elem_name) {
         if (!checked_radio) {
             checked_radio = SFF_AUDIO_GRAPH_QL.MEDIA_TYPES.TOTALS_TYPE;
         }
-
         if (test_json) {
             var actual_html = buildMediaRadios(elem_name, test_json, checked_radio);
             return new Promise((resolve, reject) => {
@@ -406,18 +406,20 @@ function getGraphCall(machine_name, elem_name) {
         } else {
             clickTotals();
             buildMediaRadios(elem_name, [], checked_radio);   // get zero counts to hightlight change
-            var graph_ql_url = graphQlUrl(machine_name, search_str);
-            return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (my_json) {
-                    var the_data = my_json.data.search_site_content;
-                    buildMediaRadios(elem_name, the_data, checked_radio);
-                    clickTotals();
-                })
+            var search_trim = search_str.trim();
+            if (search_trim !== '') {
+                var graph_ql_url = graphQlUrl(machine_name, search_trim);
+                return fetchTimeout(graph_ql_url, SFF_AUDIO_GRAPH_QL.TIME_OUT_MSEC, SFF_AUDIO_GRAPH_QL.NUM_FETCH_TRIES)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (my_json) {
+                        var the_data = my_json.data.search_site_content;
+                        buildMediaRadios(elem_name, the_data, checked_radio);
+                        clickTotals();
+                    });
+            }
         }
-        
     }
     return sff_ajax_search;
 }
@@ -430,11 +432,11 @@ function browserMediaObject() {
 
     var time_out_msec = JSON.stringify(TIME_OUT_MSEC);
     var num_fetch_tries = JSON.stringify(NUM_FETCH_TRIES);
-   
+
     var init_total_html_str = initTotalHtml.toString();
     var media_radio_lists = MediaRadioLists.toString();
     var get_graph_call = getGraphCall.toString();
-    
+
     var react_funcs = `
         <script>
              var SFF_AUDIO_GRAPH_QL = {
