@@ -36,7 +36,7 @@ var MEDIA_LABELS = {
     POST_LABEL: 'Blog Posts  - '
 };
 
-var TIME_OUT_MSEC = 6000;
+var TIME_OUT_MSEC = 59000;
 var NUM_FETCH_TRIES = 3;
 
 function initTotalHtml() {
