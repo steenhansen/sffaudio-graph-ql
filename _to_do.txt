@@ -1,4 +1,74 @@
 
 
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
+	
+	
+brinkman-jobs@sfu.ca
+position FEWD2019-2i
+
+Hello Brinkman Laboratory,
+I found your job description on Indeed.ca interesting, and I believe I am a 
+good fit.
+
+I really enjoy using React along with Node.js; especially server-side 
+rendering of components. I used to do a lot of jQuery when I worked with PHP.
+
+While at ISMP Canada I worked on https://www.ismp-canada.org/abx the Ontario 
+Antimicrobial Stewardship Project, where I wrote the data collection program
+in JavaScript/Ajax/PHP. Because participating hospitals were anonymous and we
+didn't know which browser they would utilize, I used Selenium to automate
+browser testing of the program to ensure no errors.
+
+My GitHub repository is https://github.com/steenhansen and here are some of my
+online programs that use JavaScript technologies:
+
+ - https://sffaudio-search.herokuapp.com/?book=dune&author=frank-herbert
+   is a single page app I built with Node.js/Ajax/SVG and is used for searching
+   on https://www.sffaudio.com/search/?book=dune&author=frank-herbert.
+
+ - Dragging markers on and off of Google Maps, https://gddr.herokuapp.com/maps
+   I made with JavaScript/React.
+        
+ - Dynamic image re-sizing, https://react-hover-grid.herokuapp.com
+   I produced with Node.js/React to fit changing browser widths.
+
+ - A copy of the old Breakout game, https://steenhansen.github.io/gh-pages
+   I created with JavaScript/ES6.
+
+Steen
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
