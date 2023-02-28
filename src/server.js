@@ -1,8 +1,8 @@
 var express = require('express');
-var {graphqlExpress, graphiqlExpress} = require('apollo-server-express');
+var { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 var bodyParser = require('body-parser');
 var Schema = require('./schema');
-var {widgetHtml} = require('../dist/MediaRadioLists');
+var { widgetHtml } = require('../dist/MediaRadioLists');
 const widget_id = 'media__radio__widget';
 
 
@@ -27,15 +27,14 @@ const schemaFunction =
 
 let schema;
 
+
 /*
+with pdfs:
+https://sffaudio-graph-ql.onrender.com/graphiql?operationName=serch_ql&query=query%20serch_ql(%24search_parameter%3A%20String!)%20%7B%0A%20%20search_site_content(search_text%3A%20%24search_parameter)%20%7B%0A%20%20%20%20%20%20...%20on%20ArticlePage%7B%20ID%20headline%20article_post%20%20%20%7D%2C%0A%20%20%20%20...%20on%20MentionPage%7B%20ID%20headline%20mention_post%20%20%20%7D%2C%0A%20%20%20%20...%20on%20RsdMedia%20%7B%20ID%20rsd_post%20resource%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20book%7B%20author%20title%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%20%20%7D%2C%0A%20%20%20%20...%20on%20SffAudioMedia%20%7B%20ID%20sffaudio_post%20narrator%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20possiblebook%7B%20author%20title%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%20%20%7D  %2C%0A%20%20%20%20...%20on%20PdfMedia%20%7B%20ID%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20book%7B%20author%20title%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20issues%20%7B%20url%20publisher%20pages%20%7D%20%20%20%7D  %0A%20%20%7D%0A%7D%0A&variables=%7B%0A%20%20%22search_parameter%22%3A%20%22Clarke%22%0A%7D
 
- search for boob:
- http://localhost:3000/graphql/graphql?operationName=serch_ql&query=%0Aquery%20serch_ql(%24search_parameter%3A%20String!)%20%7B%0A%20search_site_content(search_text%3A%20%24search_parameter)%20%7B%0A%20...%20on%20ArticlePage%7B%20ID%20headline%20article_post%20%7D%2C%0A%20...%20on%20MentionPage%7B%20ID%20headline%20mention_post%20%7D%2C%0A%20...%20on%20RsdMedia%20%7B%20ID%20rsd_post%20resource%0A%20book%20%7B%20author%20title%20%7D%0A%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%7D%2C%0A%20...%20on%20SffAudioMedia%20%7B%20ID%20sffaudio_post%20narrator%20about%0A%20possiblebook%7B%20author%20title%20%7D%0A%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%7D%2C%0A%20...%20on%20PdfMedia%20%7B%20ID%0A%20book%20%7B%20author%20title%20%7D%0A%20issues%20%7B%20url%20publisher%20pages%20%7D%20%7D%0A%20%7D%0A%7D%20&variables=%7B%20%22search_parameter%22%3A%20%22boob%22%7D
-
- */
-
-
-
+without pdfs
+https://sffaudio-graph-ql.onrender.com/graphiql?operationName=serch_ql&query=query%20serch_ql(%24search_parameter%3A%20String!)%20%7B%0A%20%20search_site_content(search_text%3A%20%24search_parameter)%20%7B%0A%20%20%20%20%20%20...%20on%20ArticlePage%7B%20ID%20headline%20article_post%20%20%20%7D%2C%0A%20%20%20%20...%20on%20MentionPage%7B%20ID%20headline%20mention_post%20%20%20%7D%2C%0A%20%20%20%20...%20on%20RsdMedia%20%7B%20ID%20rsd_post%20resource%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20book%7B%20author%20title%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%20%20%7D%2C%0A%20%20%20%20...%20on%20SffAudioMedia%20%7B%20ID%20sffaudio_post%20narrator%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20possiblebook%7B%20author%20title%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20podcast%20%7B%20description%20mp3%20length%20episode%20%7D%20%20%20%7D%0A%20%20%7D%0A%7D%0A&variables=%7B%0A%20%20%22search_parameter%22%3A%20%22Clarke%22%0A%7D
+*/
 
 
 /*
@@ -54,15 +53,15 @@ function corsAll(req, res, next) {
 server.use(corsAll);
 
 function parseGraphQl() {
-    var graph_ql_express = graphqlExpress(async(request) => {
+    var graph_ql_express = graphqlExpress(async (request) => {
         if (!schema) {
-            schema = schemaFunction(process.env)
+            schema = schemaFunction(process.env);
         }
         var my_ret_data = {
             schema: await schema,
         };
         return my_ret_data;
-    })
+    });
     return graph_ql_express;
 }
 
@@ -77,12 +76,12 @@ server.use('/graphiql', graphiqlExpress({
 
 
 server.get('/test', function (req, res, next) {
-    var {search_term, radio_type, my_test_json, expected_html} = require('./tests/piracy');
-    var piracy_test = mediaRadioWidget_Test(http_host, search_term,    my_test_json, radio_type, expected_html);
+    var { search_term, radio_type, my_test_json, expected_html } = require('./tests/piracy');
+    var piracy_test = mediaRadioWidget_Test(http_host, search_term, my_test_json, radio_type, expected_html);
     res.send(piracy_test);
-})
+});
 
-function mediaRadioWidget_Test(http_host, search_str,  test_json = false, test_radio = false, test_html_expected = '') {
+function mediaRadioWidget_Test(http_host, search_str, test_json = false, test_radio = false, test_html_expected = '') {
     var widget_html = widgetHtml(widget_id);
     var widget_html_js = `
         ${widget_html}
@@ -124,11 +123,11 @@ function mediaRadioWidget(http_host) {
 server.get('/media-radio-lists', function (req, res, next) {
     var my_stuff = mediaRadioWidget(http_host);
     res.send(my_stuff);
-})
+});
 
 server.get('*', function (req, res) {
     res.redirect('/media-radio-lists');
-})
+});
 
 server.listen(listen_port, () => {
     console.log(`GraphQL Server is now running on ${http_host}/graphql`);
