@@ -90,24 +90,24 @@ module.exports = function (fetch) {
       return rsd_records;
     },
 
-    pdfResolve: function (root, args, context) {
-      let search_for, search_fields, exact_match;
+    // pdfResolve: function (root, args, context) {
+    //   let search_for, search_fields, exact_match;
 
-      if (typeof args.get_pdf === 'undefined') {
-        search_fields = [];
-        search_for = '';
-        exact_match = false;
-      } else {
-        search_fields = ['episode number'];
-        search_for = args.get_pdf;
-        exact_match = true;
-      }
-      const pdf_datasource = new URL(HEROKU_PDF, SFFAUDIO_HEROKU);
-      const pdf_records = PdfMedia.fetchPdf(pdf_datasource, search_for, search_fields, exact_match)
-        .then(content_objects => SiteContent.contentToJson(content_objects)
-        );
-      return pdf_records;
-    },
+    //   if (typeof args.get_pdf === 'undefined') {
+    //     search_fields = [];
+    //     search_for = '';
+    //     exact_match = false;
+    //   } else {
+    //     search_fields = ['episode number'];
+    //     search_for = args.get_pdf;
+    //     exact_match = true;
+    //   }
+    //   const pdf_datasource = new URL(HEROKU_PDF, SFFAUDIO_HEROKU);
+    //   const pdf_records = PdfMedia.fetchPdf(pdf_datasource, search_for, search_fields, exact_match)
+    //     .then(content_objects => SiteContent.contentToJson(content_objects)
+    //     );
+    //   return pdf_records;
+    // },
 
     sffAudioResolve: function (root, args, context) {
       let search_for, search_fields, exact_match;
