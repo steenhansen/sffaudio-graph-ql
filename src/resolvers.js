@@ -39,7 +39,8 @@ module.exports = function (fetch) {
       const web_datasource = new URL(SFFAUDIO_ARTICLE_MENTIONS_PHP + '?search_text=' + search_for, SFFAUDIO_COM);
       var webpage_data = WebPage.fetchWebPages(web_datasource, '', [], exact_match);
 
-      return Promise.all([rsd_data, pdf_data, sffaudio_data, webpage_data])
+      //      return Promise.all([rsd_data, pdf_data, sffaudio_data, webpage_data])
+      return Promise.all([rsd_data, sffaudio_data, webpage_data])
         .then(function (values) {
           let non_empty = values.filter(match_array => match_array.length > 0 ? true : false);
           let object_list = non_empty.reduce((accumulator, currentValue) => accumulator.concat(currentValue), []);
