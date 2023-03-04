@@ -20,3 +20,10 @@ The returned json from [GraphQl JSON search for 'Clarke'](<https://sffaudio-grap
     npm run serve
 
     http://localhost:3000/media-radio-lists
+
+## Free Hosting on render.com
+	Web Service
+	
+	Settings
+		Build Command	$ npm install
+		Start Command	$ node src/server.js
