@@ -1,4 +1,4 @@
-// For Render.com
+// For vercel
 
 var express = require('express');
 var { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
@@ -144,3 +144,6 @@ server.listen(listen_port, () => {
   console.log(`GraphQL Server is now running on ${http_host}/graphql`);
   console.log(`View GraphiQL at ${http_host}/graphiql`);
 });
+
+
+module.exports = server;
