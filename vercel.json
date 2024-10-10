@@ -3,7 +3,8 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/src"
+      "destination": "/src",
+      "outputDirectory": "src"
     }
   ]
 }
